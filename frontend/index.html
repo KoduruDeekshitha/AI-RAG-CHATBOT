@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI RAG Chatbot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🤖 DEEKSHITHA RAG Chatbot</h1>
+
+    <div class="card">
+
+        <h2>Upload Document</h2>
+
+        <input type="file" id="file">
+
+        <button onclick="uploadFile()">
+            Upload
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Uploaded Files</h2>
+
+        <div id="files"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Ask DEEKSHITHA AI</h2>
+        
+        <select id="filename"></select>
+
+        <textarea
+            id="question"
+            placeholder="Ask a question..."
+        ></textarea>
+        <button id="micButton" onclick="startListening()"> 🎤</button>
+        <button onclick="askQuestion()">
+            Ask
+        </bukodurutton>
+<div id="loading" class="loader"></div>
+    </div>
+
+    <div class="card">
+<h2>Chat</h2>
+
+<div id="chatBox"></div>
+        
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
