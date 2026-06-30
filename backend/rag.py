@@ -1,6 +1,7 @@
 from backend.search import retrieve_chunks
 from backend.prompt_bulider import build_prompt
 from backend.gemini import generate_answer
+from backend.agent import run_agent
 from backend.chat_memory import add_message,get_history
 from backend.system_prompt import SYSTEM_PROMPT
 def ask_rag(question,filename):
@@ -11,7 +12,7 @@ def ask_rag(question,filename):
     add_message("User",question)
     history=get_history()
     prompt=build_prompt(history+"\nCurrent Question"+question,documents)
-    answer=generate_answer(prompt)
+    answer=run_agent(prompt)
     return answer
 def bulid_prompt(question,documents):
     context="\n\n".join(documents)

@@ -3,63 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI RAG Chatbot</title>
+    <title>DEEKSHITHA AI - RAG Chatbot</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
-
+    <div id="chatSection">
 <div class="container">
+    <!-- Sidebar Starts -->
+   <section class="sidebar">
 
-    <h1>🤖 DEEKSHITHA RAG Chatbot</h1>
+    <div class="logo">
+        <i class="fa-solid fa-robot"></i>
+        <h2>DEEKSHITHA AI</h2>
+        <p>Gemini Powered Assistant</p>
+    </div>
 
-    <div class="card">
+    <div class="menu">
 
-        <h2>Upload Document</h2>
+        <button class="menu-btn active">
+            <i class="fa-solid fa-comments"></i>
+            Chat
+        </button>
 
-        <input type="file" id="file">
-
-        <button onclick="uploadFile()">
-            Upload
+        <button class="menu-btn" id="emailMenuBtn">
+            <i class="fa-solid fa-envelope"></i>
+            Email
         </button>
 
     </div>
+    <div class="upload-box">
+<h3>
+<i class="fa-solid fa-upload"></i>
+Upload PDF
+</h3>
 
-    <div class="card">
+<input
+type="file"
+id="pdfFile"
+accept=".pdf,.doc,.docx">
 
-        <h2>Uploaded Files</h2>
+<button id="uploadBtn">
+Upload Document
+</button>
 
-        <div id="files"></div>
+<div id="uploadStatus"></div>
+</div>
 
-    </div>
+<div class="files-box">
+<h3>Uploaded Files</h3>
 
-    <div class="card">
+<div id="fileList">
+<p>No file uploaded</p>
+</div>
 
-        <h2>Ask DEEKSHITHA AI</h2>
+<button id="deleteBtn">
+<i class="fa-solid fa-trash"></i>
+Delete All
+</button>
+</div>
+
+</section>
         
-        <select id="filename"></select>
+    <!-- Sidebar Ends -->
+    <!-- Main Starts -->
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <h1> AI RAG Chatbot
+                </h1>
+                <p>
+                    Upload your documents and chat intelligently.
+                </p>
+            </div>
+            <div class="status">
+                <span class="online-dot"></span>
+                Gemini Online
+            </div>
+        </header>
+    
+        <!-- Chat Starts -->
+        <section class="chat-container">
+            <div id="chatBox" class="chat-box">
+                <div class="bot-message">
+                    <div class="avatar">
+                        🤖
+                    </div>
+                    <div class="message">
+                        Hello 👋
+                        <br><br>
+                        I'm <b>DEEKSHITHA AI</b>.
+                        <br><br>
+                        Upload your PDF and ask me anything.
+                    </div>
+                </div>
+                         <div id="typing" class="bot-message typing" style="display:none;">
+                    <div class="avatar">🤖</div>
+                    <div class="message">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="input-container">
+                <textarea
+                    id="question"
+                    placeholder="Ask anything from your uploaded documents..."
+                    rows="2"></textarea>
+                <div class="action-buttons">
+                    <button id="voiceBtn">
+                        <i class="fa-solid fa-microphone"></i>
+                        Voice
+                    </button>
+                    <button id="clearChat">
+                        <i class="fa-solid fa-trash"></i>
+                        Clear
+                    </button>
+                    <button id="sendBtn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Ask AI
+                    </button>
+                </div>
+            </div>
+            </div>
+            </section>
+            </main>
+        <section class="feature-section">
+            <h2>Why Choose DEEKSHITHA AI?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <h3>PDF Chat</h3>
+                    <p>Upload PDF documents and ask intelligent questions.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-brain"></i>
+                    <h3>Gemini AI</h3>
+                    <p>Powered by Google's Gemini Large Language Model.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <h3>Voice Assistant</h3>
+                    <p>Speak with the AI using voice input and hear responses.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-envelope-circle-check"></i>
+                    <h3>Email Support</h3>
+                    <p>Email AI responses directly to your inbox.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-database"></i>
+                    <h3>Vector Search</h3>
+                    <p>Uses ChromaDB for accurate semantic document retrieval.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Secure</h3>
+                    <p>Your uploaded documents remain private and searchable.</p>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <p>
+                Developed by <strong>Deekshitha</strong> |
+                FastAPI |
+                Gemini AI |
+                ChromaDB |
+                HTML |
+                CSS |
+                JavaScript
+            </p>
+        </footer>
+</div>
+<div id="emailSection" style="display:none;">
 
-        <textarea
-            id="question"
-            placeholder="Ask a question..."
-        ></textarea>
-        <button id="micButton" onclick="startListening()"> 🎤</button>
-        <button onclick="askQuestion()">
-            Ask
-        </button>
-<div id="loading" class="loader"></div>
-    </div>
+<div class="email-container">
 
-    <div class="card">
-<h2>Chat</h2>
+<h1>📧 AI Email Assistant</h1>
 
-<div id="chatBox"></div>
-        
+<p>Create professional emails using AI.</p>
 
-    </div>
+<input
+type="email"
+id="receiver"
+placeholder="Recipient Email">
+
+<textarea
+id="emailPrompt"
+rows="8"
+placeholder="Example: Write a professional leave request email to my manager."></textarea>
+
+<div class="email-buttons">
+
+<button id="generateEmail">
+<i class="fa-solid fa-paper-plane"></i>
+Generate & Send Email
+</button>
+
+<button id="backToChat">
+<i class="fa-solid fa-arrow-left"></i>
+Back to Chat
+</button>
 
 </div>
 
-<script src="script.js"></script>
+</div>
 
+</div>
+<script src="script.js"></script>
 </body>
-</html>
+</html>       
