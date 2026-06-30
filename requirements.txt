@@ -9,3 +9,5 @@ transformers
 PyMuPDF
 python-docx
 numpy
+google-generativeai
+python-dotenv

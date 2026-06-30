@@ -1,6 +1,6 @@
 from backend.search import retrieve_chunks
 from backend.prompt_bulider import build_prompt
-from backend.llm import generate_answer
+from backend.gemini import generate_answer
 from backend.chat_memory import add_message,get_history
 from backend.system_prompt import SYSTEM_PROMPT
 def ask_rag(question,filename):
