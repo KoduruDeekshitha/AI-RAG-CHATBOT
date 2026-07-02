@@ -11,3 +11,4 @@ python-docx
 numpy
 google-generativeai
 python-dotenv
+resend
