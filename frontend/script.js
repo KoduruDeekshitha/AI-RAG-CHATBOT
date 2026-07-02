@@ -110,15 +110,21 @@ question.value="";
 showTyping();
 const formData=new FormData();
 formData.append("question",q);
-const selected=document.querySelector(".file-check:checked");
+const selected = document.querySelectorAll(".file-check:checked");
 
-if(!selected){
-alert("Please select a document.");
-hideTyping();
-return;
+if(selected.length === 0){
+    alert("Please select at least one document.");
+    hideTyping();
+    return;
 }
 
-formData.append("filename",selected.value);
+const filenames = [];
+
+selected.forEach(file=>{
+    filenames.push(file.value);
+});
+
+formData.append("filenames", JSON.stringify(filenames));
 
 try{
 const response=await fetch(API_URL+"/ask",{
@@ -126,8 +132,17 @@ method:"POST",
 body:formData
 
 });
-const data=await response.json();
+const data = await response.json();
+
+console.log(data);
+
 hideTyping();
+
+if (data.error) {
+    addBotMessage("❌ " + data.error);
+    return;
+}
+
 addBotMessage(data.answer);
 speak(data.answer);
 }catch(error)
@@ -279,56 +294,82 @@ currentFile="";
 refreshFiles();
 }
 });
-const emailMenuBtn=document.getElementById("emailMenuBtn");
-const emailSection=document.getElementById("emailSection");
-const chatSection=document.getElementById("chatSection");
-const backToChat=document.getElementById("backToChat");
+const emailMenuBtn = document.getElementById("emailMenuBtn");
+const chatSection = document.getElementById("chatSection");
+const emailSection = document.getElementById("emailSection");
 const generateEmail=document.getElementById("generateEmail");
+const emailFile=document.getElementById("emailFile");
+const emailPrompt=document.getElementById("emailPrompt");
+const backToChat=document.getElementById("backToChat");
 
 emailMenuBtn.addEventListener("click",()=>{
 chatSection.style.display="none";
 emailSection.style.display="block";
 });
 
-backToChat.addEventListener("click",()=>{
-emailSection.style.display="none";
-chatSection.style.display="block";
-});
-
 generateEmail.addEventListener("click",async()=>{
 
-const receiver=document.getElementById("receiver").value.trim();
-const prompt=document.getElementById("emailPrompt").value.trim();
-
-if(receiver===""||prompt===""){
-alert("Please fill all fields.");
+if(emailFile.files.length===0){
+alert("Please select a PDF or DOCX file.");
 return;
 }
 
-const formData=new FormData();
-formData.append("receiver",receiver);
-formData.append("prompt",prompt);
+if(emailPrompt.value.trim()===""){
+alert("Please enter the email prompt.");
+return;
+}
 
+generateEmail.disabled=true;
+generateEmail.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Extracting Emails...';
+
+const formData=new FormData();
+formData.append("file",emailFile.files[0]);
+formData.append("prompt",emailPrompt.value);
 try{
 
-const response=await fetch(API_URL+"/send-email-ai",{
-method:"POST",
-body:formData
+const response = await fetch(API_URL + "/bulk-email",{
+    method:"POST",
+    body:formData
 });
 
-const data=await response.json();
+const data = await response.json();
 
-if(response.ok){
-alert("✅ Email sent successfully.");
-document.getElementById("receiver").value="";
-document.getElementById("emailPrompt").value="";
-}else{
-alert(data.detail||"Unable to send email.");
+if(!response.ok){
+    console.log(data);
+    alert(data.detail || "Bulk email failed");
+    return;
 }
+
+generateEmail.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Sending Emails...';
+
+setTimeout(()=>{
+
+generateEmail.disabled=false;
+
+generateEmail.innerHTML='<i class="fa-solid fa-paper-plane"></i> Generate & Send Email';
+
+alert(
+"Bulk Email Completed!\n\n"+
+"Total Emails : "+data.total+
+"\nSent : "+data.sent.length+
+"\nFailed : "+data.failed.length
+);
+
+},1000);
 
 }catch(error){
-console.log(error);
-alert("Server Error");
-}
 
+console.error(error);
+
+generateEmail.disabled=false;
+
+generateEmail.innerHTML='<i class="fa-solid fa-paper-plane"></i> Generate & Send Email';
+
+alert(error.message);
+
+}});
+
+backToChat.addEventListener("click", () => {
+    emailSection.style.display = "none";
+    chatSection.style.display = "block";
 });

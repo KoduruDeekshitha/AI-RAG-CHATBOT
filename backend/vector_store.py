@@ -9,13 +9,32 @@ def store_embeddings(chunks,embeddings,filename):
         metadatas.append({"filename":filename})
     collection.add(ids=ids,documents=chunks,embeddings=embeddings.tolist(),metadatas=metadatas)
     return len(ids)
-def search(query_embedding,filename=None,n_results=5):
-    if filename:
-        return collection.query(
-            query_embeddings=[query_embedding.tolist()],
-            where={"filename":filename},
-            n_results=n_results
-        )
+def search(query_embedding, filenames=None, n_results=20):
+
+    if filenames:
+
+        all_docs = []
+        all_ids = []
+        all_meta = []
+
+        for filename in filenames:
+
+            result = collection.query(
+                query_embeddings=[query_embedding.tolist()],
+                where={"filename": filename},
+                n_results=n_results
+            )
+
+            all_docs.extend(result["documents"][0])
+            all_ids.extend(result["ids"][0])
+            all_meta.extend(result["metadatas"][0])
+
+        return {
+            "documents":[all_docs],
+            "ids":[all_ids],
+            "metadatas":[all_meta]
+        }
+
     return collection.query(
         query_embeddings=[query_embedding.tolist()],
         n_results=n_results

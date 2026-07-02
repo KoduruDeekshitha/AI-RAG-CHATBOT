@@ -1,20 +1,33 @@
-def build_prompt(question,documents):
-    context="\n\n".join(documents)
-    prompt=f"""
-    You are an AI assistant.
+def build_prompt(question, documents):
 
-Answer ONLY from the context provided below.
+    context = "\n\n----------------------------\n\n".join(documents)
 
-Rules:
-1. Do not use your own knowledge.
-2. If the answer is not present in the context, reply exactly:
+    prompt = f"""
+You are an AI Resume Assistant.
+
+You are given information extracted from one or more resumes.
+
+Answer ONLY using the information below.
+
+If the question refers to multiple candidates, search ALL resumes before answering.
+
+Never ignore information from later resumes.
+
+If the answer does not exist, reply exactly:
+
 I couldn't find the information.
-3. Keep the answer short and precise."
-    context:
-    {context}
-    question:
-    {question}
-    answer:
-    """
+
+====================
+
+{context}
+
+====================
+
+Question:
+{question}
+
+Answer:
+"""
+
     return prompt
      

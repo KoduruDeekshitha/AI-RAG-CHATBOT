@@ -186,11 +186,12 @@ Delete All
 <h1>📧 AI Email Assistant</h1>
 
 <p>Create professional emails using AI.</p>
+<h3>Bulk Email Sender</h3>
 
 <input
-type="email"
-id="receiver"
-placeholder="Recipient Email">
+type="file"
+id="emailFile"
+accept=".pdf,.docx">
 
 <textarea
 id="emailPrompt"
@@ -199,12 +200,12 @@ placeholder="Example: Write a professional leave request email to my manager."><
 
 <div class="email-buttons">
 
-<button id="generateEmail">
+<button type="button" id="generateEmail">
 <i class="fa-solid fa-paper-plane"></i>
 Generate & Send Email
 </button>
 
-<button id="backToChat">
+<button type="button" id="backToChat">
 <i class="fa-solid fa-arrow-left"></i>
 Back to Chat
 </button>
