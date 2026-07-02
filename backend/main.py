@@ -29,20 +29,27 @@ def home():
     }
 @app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
-    file_path=os.path.join(Upload_folder,file.filename)
-    with open(file_path,"wb") as buffer:
-        shutil.copyfileobj(file.file,buffer)
-    text=extract_text(file_path)
-    chunks=split_text(text)
-    embeddings=create_embeddings(chunks)
-    stored=store_embeddings(chunks,embeddings,file.filename)
-    return {
-        "filename":file.filename,
-        "number_of_chunks":len(chunks),
-        "embedding_dimension":len(embeddings[0]),
-        "stored_vectors":stored,
-        "message":"embeddings stored successfully."
-    }
+    print("Upload started")
+
+    file_path = os.path.join(Upload_folder, file.filename)
+    print(file_path)
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    print("File saved")
+
+    text = extract_text(file_path)
+    print("Text extracted")
+
+    chunks = split_text(text)
+    print("Chunks:", len(chunks))
+
+    embeddings = create_embeddings(chunks)
+    print("Embeddings created")
+
+    stored = store_embeddings(chunks, embeddings, file.filename)
+    print("Stored")
 @app.post("/ask")
 async def ask(
     question: str = Form(...),
